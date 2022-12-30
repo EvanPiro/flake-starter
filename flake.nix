@@ -13,9 +13,9 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       devShells.default = pkgs.mkShell {
-        packages = [
+        packages = with pkgs; [
           # Enter dependencies here. Example:
-          # pkgs.postgresql
+          postgresql
         ];
       };
       formatter = pkgs.alejandra;
