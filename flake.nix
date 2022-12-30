@@ -1,23 +1,21 @@
 {
   description = "Dev shell sandbox";
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:EvanPiro/nixpkgs";
   };
   outputs = {
     self,
     nixpkgs,
-    flake-utils,
   }: let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    mkDevShell = import ./dev-shell.nix;
+    systems = ["x86_64-linux" "x86_64-darwin"];
   in {
-    devShells.${system}.default = pkgs.mkShell {
-      packages = with pkgs; [
-        # Enter dependencies here. Example:
-        # postgresql
-      ];
+    devShells = {
+      x86_64-linux.default = mkDevShell {
+        inherit nixpkgs;
+        system = "x86_64-linux";
+      };
     };
-    formatter.${system} = pkgs.alejandra;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };
 }
