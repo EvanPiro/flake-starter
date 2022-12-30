@@ -8,16 +8,16 @@
     self,
     nixpkgs,
     flake-utils,
-  }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          # Enter dependencies here. Example:
-          postgresql
-        ];
-      };
-      formatter = pkgs.alejandra;
-    });
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    devShells.${system}.default = pkgs.mkShell {
+      packages = with pkgs; [
+        # Enter dependencies here. Example:
+        # postgresql
+      ];
+    };
+    formatter.${system} = pkgs.alejandra;
+  };
 }
