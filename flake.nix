@@ -10,17 +10,17 @@
     systems = ["x86_64-darwin" "x86_64-linux"];
   in
     nixpkgs.lib.pipe systems [
-      (builtins.map (system: {
-        devShells.${system}.default = with nixpkgs.legacyPackages.${system}.pkgs;
-          pkgs.mkShell {
-            packages = with pkgs; [
-              postgresql
-            ];
-          };
+      (builtins.map (system: let
+        pkgs = nixpkgs.legacyPackages.${system}.pkgs;
+      in {
+        devShells.${system}.default = pkgs.mkShell {
+          packages = with pkgs; [
+            postgresql
+          ];
+        };
+        formatter.${system} = pkgs.alejandra;
       }))
 
-      (builtins.foldl' nixpkgs.lib.recursiveUpdate {
-       # formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-      })
+      (builtins.foldl' nixpkgs.lib.recursiveUpdate {})
     ];
 }
