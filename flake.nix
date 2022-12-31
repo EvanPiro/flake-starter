@@ -7,6 +7,7 @@
     self,
     nixpkgs,
   }: let
+    # Add supported systems
     systems = ["x86_64-darwin" "x86_64-linux"];
   in
     nixpkgs.lib.pipe systems [
@@ -15,7 +16,8 @@
       in {
         devShells.${system}.default = pkgs.mkShell {
           packages = with pkgs; [
-            postgresql
+            # Add packages from nixpkgs like the following:
+            # postgresql
           ];
         };
         formatter.${system} = pkgs.alejandra;
