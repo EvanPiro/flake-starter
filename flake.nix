@@ -14,6 +14,7 @@
       (builtins.map (system: let
         pkgs = nixpkgs.legacyPackages.${system}.pkgs;
       in {
+        # Add set conforming to flake schema here:
         devShells.${system}.default = pkgs.mkShell {
           packages = with pkgs; [
             # Add packages from nixpkgs like the following:
