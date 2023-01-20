@@ -1,6 +1,6 @@
 pkgs:
 pkgs.mkShell {
-  buildInputs = [
-    pkgs.postgresql
+  buildInputs = with pkgs; [
+    # add dev deps here
   ];
 }
